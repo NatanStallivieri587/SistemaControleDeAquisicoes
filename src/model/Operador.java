@@ -1,4 +1,4 @@
-package main.empresa.aquisicoes.model;
+package model;
 
 public class Operador {
     private String nome;
