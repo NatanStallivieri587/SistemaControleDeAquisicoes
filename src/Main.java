@@ -1,12 +1,17 @@
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
+import services.*;
 import model.Operador;
+import model.Fornecedor;
 import model.Pedido;
-import services.BuscaPedidosPorPeriodo;
+import model.Produto;
+
 
 public class Main {
+    
+    private static final List<Fornecedor> fornecedores = new ArrayList<>();
+    private static final List<Produto> produtos = new ArrayList<>();
+    private static final List<Pedido> todosPedidos = new ArrayList<>();
     private static final Scanner scanner = new Scanner(System.in);
     private static final List<Pedido> todosPedidos = new ArrayList<>();
     private static Operador operadorAtual = new Operador("Nao identificado", "--");
@@ -14,6 +19,7 @@ public class Main {
     public static void main(String[] args) {
         boolean executando = true;
 
+        carregarDadosExemplo();
         while (executando) {
             exibirCabecalho();
             exibirMenu();
@@ -25,7 +31,11 @@ public class Main {
                     identificarOperador();
                     break;
                 case "2":
-                    BuscaPedidosPorPeriodo.buscarPedidoPorData(scanner, todosPedidos);
+                    CriacaoPedidos.registrarPedido(scanner, todosPedidos, operadorAtual, fornecedores, produtos);
+                    pausar();
+                    break;
+                case "3":
+                    ExclusaoPedidos.excluirPedido(scanner, todosPedidos, operadorAtual);
                     pausar();
                     break;
                 case "0":
@@ -51,7 +61,8 @@ public class Main {
 
     private static void exibirMenu() {
         System.out.println("1 - Identificar/Trocar usuario atual");
-        System.out.println("2 - Buscar pedidos por periodo");
+        System.out.println("2 - Registrar novo pedido");
+        System.out.println("3 - Excluir pedido");
         System.out.println("0 - Sair");
         System.out.print("Escolha uma opcao: ");
     }
@@ -77,4 +88,16 @@ public class Main {
         System.out.println("Pressione ENTER para continuar...");
         scanner.nextLine();
     }
+
+    private static void carregarDadosExemplo() {
+    fornecedores.add(new Fornecedor(1, "Papelaria Central", "12.345.678/0001-90", "(11) 3000-1111"));
+    fornecedores.add(new Fornecedor(2, "Tech Suprimentos", "98.765.432/0001-10", "(11) 3000-2222"));
+
+    produtos.add(new Produto(1, "Papel A4 (resma)", "UN", 25.90));
+    produtos.add(new Produto(2, "Caneta azul", "CX", 18.50));
+    produtos.add(new Produto(3, "Toner preto", "UN", 189.00));
+}
+
+
+
 }
