@@ -40,6 +40,7 @@ public class Pedido {
     public Fornecedor getFornecedor() { return fornecedor; }
     public LocalDate getData() { return data; }
     public StatusPedido getStatus() { return status; }
+    public void setStatus(StatusPedido status) { this.status = status; }
     public List<ItemPedido> getItens() { return Collections.unmodifiableList(itens); }
 
     @Override
