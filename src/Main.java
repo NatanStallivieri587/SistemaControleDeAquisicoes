@@ -37,6 +37,14 @@ public class Main {
                     ExclusaoPedidos.excluirPedido(scanner, todosPedidos, operadorAtual);
                     pausar();
                     break;
+                case "4":
+                    if (operadorAtual.isAdministrador()) {
+                        exibirPainelAdministrador();
+                    } else {
+                        System.out.println("Opcao invalida.");
+                        pausar();
+                    }
+                    break;
                 case "0":
                     executando = false;
                     System.out.println("Sistema encerrado.");
@@ -48,6 +56,14 @@ public class Main {
         }
 
         scanner.close();
+    }
+
+    private static void exibirPainelAdministrador() {
+        System.out.println();
+        System.out.println("=== PAINEL DO ADMINISTRADOR ===");
+        System.out.println("Numero total de pedidos registrados: " + todosPedidos.size());
+        // A divisao percentual sera implementada na proxima etapa (Etapa 4)
+        pausar();
     }
 
     private static void exibirCabecalho() {
@@ -62,6 +78,9 @@ public class Main {
         System.out.println("1 - Identificar/Trocar usuario atual");
         System.out.println("2 - Registrar novo pedido");
         System.out.println("3 - Excluir pedido");
+        if (operadorAtual.isAdministrador()) {
+            System.out.println("4 - Painel de Estatisticas (Admin)");
+        }
         System.out.println("0 - Sair");
         System.out.print("Escolha uma opcao: ");
     }
@@ -76,7 +95,11 @@ public class Main {
         if (nome.isEmpty() || iniciais.isEmpty()) {
             System.out.println("Nome e iniciais sao obrigatorios.");
         } else {
+            System.out.print("O usuario e administrador? (S/N): ");
+            boolean isAdmin = scanner.nextLine().trim().equalsIgnoreCase("S");
+            
             operadorAtual = new Operador(nome, iniciais);
+            operadorAtual.setAdministrador(isAdmin);
             System.out.println("Usuario atual alterado para: " + operadorAtual);
         }
 

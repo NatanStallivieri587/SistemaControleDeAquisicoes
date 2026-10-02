@@ -3,6 +3,7 @@ package model;
 public class Operador {
     private String nome;
     private String iniciais;
+    private boolean isAdministrador = false;
 
     public Operador(String nome, String iniciais) {
         this.nome = nome;
@@ -15,6 +16,14 @@ public class Operador {
 
     public String getIniciais() {
         return iniciais;
+    }
+
+    public boolean isAdministrador() {
+        return isAdministrador;
+    }
+
+    public void setAdministrador(boolean isAdministrador) {
+        this.isAdministrador = isAdministrador;
     }
 
     @Override
@@ -36,6 +45,7 @@ public class Operador {
 
     @Override
     public String toString() {
-        return nome + " (" + iniciais + ")";
+        String adminStr = isAdministrador ? " [Admin]" : "";
+        return nome + " (" + iniciais + ")" + adminStr;
     }
 }
