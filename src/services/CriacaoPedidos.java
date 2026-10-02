@@ -52,6 +52,17 @@ public class CriacaoPedidos {
             return;
         }
 
+        if (operador.getDepartamento() != null) {
+            double total = pedido.getTotal();
+            double limite = operador.getDepartamento().getLimiteMaximoPedido();
+            if (total > limite) {
+                System.out.printf("ERRO: O valor total do pedido (R$ %.2f) excede o limite do departamento %s (R$ %.2f).%n", 
+                                  total, operador.getDepartamento().getNome(), limite);
+                System.out.println("Criacao de pedido bloqueada.");
+                return;
+            }
+        }
+
         todosPedidos.add(pedido);
         System.out.println();
         System.out.println("Pedido registrado com sucesso!");
