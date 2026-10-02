@@ -33,19 +33,22 @@ public class Main {
                 case "2":
                     CriacaoPedidos.registrarPedido(scanner, todosPedidos, operadorAtual, fornecedores, produtos);
                     pausar();
-                    break;
+                    break;                               
                 case "3":
+                    BuscaPedidosPorItem.buscarPorPalavraChave(scanner, todosPedidos);
+                    break;
+                case "4":
                     ExclusaoPedidos.excluirPedido(scanner, todosPedidos, operadorAtual);
                     pausar();
                     break;
-                case "4":
+                case "5":
                     BuscaPedidosPorPeriodo.buscarPedidoPorData(scanner, todosPedidos);
                     pausar();
                     break;
-                case "5":
+                case "6":
                     registrarEntrega();
                     break;
-                case "6":
+                case "7":
                     if (operadorAtual.isAdministrador()) {
                         exibirPainelAdministrador();
                     } else {
@@ -53,15 +56,15 @@ public class Main {
                         pausar();
                     }
                     break;
-                case "7":
+                case "8":
                     GerenciadorDeEstatisticas.getEstatisticasUltimos30Dias(todosPedidos);
                     pausar();
                     break;
-                case "8":
+                case "9":
                     GerenciadorDeEstatisticas.getPedidosOperador(scanner, todosPedidos);
                     pausar();
                     break;
-                case "9":
+                case "10":
                     GerenciadorDeEstatisticas.getMaiorPedidoValorEmAberto(todosPedidos);
                     pausar();
                     break;
@@ -121,11 +124,12 @@ public class Main {
     private static void exibirMenu() {
         System.out.println("1 - Identificar/Trocar usuario atual");
         System.out.println("2 - Registrar novo pedido");
-        System.out.println("3 - Excluir pedido");
-        System.out.println("4 - Buscar pedidos por periodo");
-        System.out.println("5 - Registrar entrega de pedido");
+        System.out.println("3 - Buscar pedidos por item (palavra-chave)");
+        System.out.println("4 - Excluir pedido");
+        System.out.println("5 - Buscar pedidos por periodo");
+        System.out.println("6 - Registrar entrega de pedido");
         if (operadorAtual.isAdministrador()) {
-            System.out.println("6 - Painel de Estatisticas (Admin)");
+            System.out.println("7 - Painel de Estatisticas (Admin)");
         }
         System.out.println("0 - Sair");
         System.out.print("Escolha uma opcao: ");
