@@ -39,6 +39,9 @@ public class Main {
                     ExclusaoPedidos.excluirPedido(scanner, todosPedidos, operadorAtual);
                     pausar();
                     break;
+                case "4":
+                    registrarEntrega();
+                    break;
                 case "0":
                     executando = false;
                     System.out.println("Sistema encerrado.");
@@ -64,8 +67,59 @@ public class Main {
         System.out.println("1 - Identificar/Trocar usuario atual");
         System.out.println("2 - Registrar novo pedido");
         System.out.println("3 - Excluir pedido");
+        System.out.println("4 - Registrar entrega de pedido");
         System.out.println("0 - Sair");
         System.out.print("Escolha uma opcao: ");
+    }
+
+    private static void registrarEntrega() {
+        System.out.println();
+        System.out.println("=== REGISTRAR ENTREGA DE PEDIDO ===");
+        
+        List<Pedido> pedidosAbertos = new ArrayList<>();
+        for (Pedido p : todosPedidos) {
+            if (p.getStatus() == model.StatusPedido.ABERTO || p.getStatus() == model.StatusPedido.APROVADO) {
+                pedidosAbertos.add(p);
+            }
+        }
+        
+        if (pedidosAbertos.isEmpty()) {
+            System.out.println("Nenhum pedido pendente de entrega.");
+            pausar();
+            return;
+        }
+        
+        System.out.println("Pedidos pendentes:");
+        for (Pedido p : pedidosAbertos) {
+            System.out.printf("  %d - Pedido em %s | Status: %s | Solicitante: %s%n", 
+                p.getId(), p.getData(), p.getStatus(), p.getOperador().getNome());
+        }
+        
+        System.out.print("Digite o numero do pedido para registrar entrega (0 para cancelar): ");
+        try {
+            int id = Integer.parseInt(scanner.nextLine().trim());
+            if (id == 0) {
+                System.out.println("Operacao cancelada.");
+            } else {
+                Pedido pedidoEncontrado = null;
+                for (Pedido p : pedidosAbertos) {
+                    if (p.getId() == id) {
+                        pedidoEncontrado = p;
+                        break;
+                    }
+                }
+                
+                if (pedidoEncontrado != null) {
+                    pedidoEncontrado.registrarEntrega();
+                    System.out.println("Entrega registrada! Data de conclusao definida para: " + pedidoEncontrado.getDataConclusao());
+                } else {
+                    System.out.println("Pedido nao encontrado ou nao esta pendente de entrega.");
+                }
+            }
+        } catch (NumberFormatException e) {
+            System.out.println("Entrada invalida.");
+        }
+        pausar();
     }
 
     private static void identificarOperador() {
