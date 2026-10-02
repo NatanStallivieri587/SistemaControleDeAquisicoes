@@ -3,10 +3,14 @@ package model;
 public class Operador {
     private String nome;
     private String iniciais;
+    private Departamento departamento;
+    private boolean isAdministrador;
 
-    public Operador(String nome, String iniciais) {
+    public Operador(String nome, String iniciais, Departamento departamento, boolean isAdministrador) {
         this.nome = nome;
         this.iniciais = iniciais;
+        this.departamento = departamento;
+        this.isAdministrador = isAdministrador;
     }
 
     public String getNome() {
@@ -15,6 +19,14 @@ public class Operador {
 
     public String getIniciais() {
         return iniciais;
+    }
+
+    public Departamento getDepartamento() {
+        return departamento;
+    }
+
+    public boolean isAdministrador() {
+        return isAdministrador;
     }
 
     @Override
@@ -36,6 +48,8 @@ public class Operador {
 
     @Override
     public String toString() {
-        return nome + " (" + iniciais + ")";
+        String adminStr = isAdministrador ? " [Admin]" : "";
+        String deptoStr = (departamento != null) ? " - Depto: " + departamento.getNome() : "";
+        return nome + " (" + iniciais + ")" + adminStr + deptoStr;
     }
 }

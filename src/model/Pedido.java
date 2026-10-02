@@ -12,6 +12,7 @@ public class Pedido {
     private final Operador operador;
     private final Fornecedor fornecedor;
     private final LocalDate data;
+    private LocalDate dataConclusao;
     private StatusPedido status;
     private final List<ItemPedido> itens = new ArrayList<>();
 
@@ -27,6 +28,15 @@ public class Pedido {
         itens.add(item);
     }
 
+    public void registrarEntrega() {
+        this.dataConclusao = LocalDate.now();
+        this.status = StatusPedido.RECEBIDO;
+    }
+
+    public void setStatus(StatusPedido status) {
+        this.status = status;
+    }
+
     public double getTotal() {
         double total = 0;
         for (ItemPedido item : itens) {
@@ -39,6 +49,7 @@ public class Pedido {
     public Operador getOperador() { return operador; }
     public Fornecedor getFornecedor() { return fornecedor; }
     public LocalDate getData() { return data; }
+    public LocalDate getDataConclusao() { return dataConclusao; }
     public StatusPedido getStatus() { return status; }
     public void setStatus(StatusPedido status) { this.status = status; }
     public List<ItemPedido> getItens() { return Collections.unmodifiableList(itens); }
@@ -46,7 +57,8 @@ public class Pedido {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append(String.format("Pedido #%d | Data: %s | Status: %s%n", id, data, status));
+        String conclusaoStr = (dataConclusao != null) ? " | Conclusao: " + dataConclusao : "";
+        sb.append(String.format("Pedido #%d | Data: %s%s | Status: %s%n", id, data, conclusaoStr, status));
         sb.append("Funcionario: ").append(operador).append(System.lineSeparator());
         sb.append("Fornecedor: ").append(fornecedor).append(System.lineSeparator());
         sb.append("Itens:").append(System.lineSeparator());

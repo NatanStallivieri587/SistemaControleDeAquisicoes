@@ -4,15 +4,17 @@ import model.Operador;
 import model.Pedido;
 import model.Produto;
 import services.*;
+import model.Departamento;
 
 
 public class Main {
     
+    private static final List<Departamento> departamentos = new ArrayList<>();
     private static final List<Fornecedor> fornecedores = new ArrayList<>();
     private static final List<Produto> produtos = new ArrayList<>();
     private static final List<Pedido> todosPedidos = new ArrayList<>();
     private static final Scanner scanner = new Scanner(System.in);
-    private static Operador operadorAtual = new Operador("Nao identificado", "--");
+    private static Operador operadorAtual = new Operador("Nao identificado", "--", null, false);
 
     public static void main(String[] args) {
         boolean executando = true;
@@ -40,6 +42,9 @@ public class Main {
                     BuscaPedidosPorPeriodo.buscarPedidoPorData(scanner, todosPedidos);
                     pausar();
                     break;
+                case "5":
+                    registrarEntrega();
+                    break;
                 case "0":
                     executando = false;
                     System.out.println("Sistema encerrado.");
@@ -66,8 +71,59 @@ public class Main {
         System.out.println("2 - Registrar novo pedido");
         System.out.println("3 - Excluir pedido");
         System.out.println("4 - Buscar pedidos por periodo");
+        System.out.println("5 - Registrar entrega de pedido");
         System.out.println("0 - Sair");
         System.out.print("Escolha uma opcao: ");
+    }
+
+    private static void registrarEntrega() {
+        System.out.println();
+        System.out.println("=== REGISTRAR ENTREGA DE PEDIDO ===");
+        
+        List<Pedido> pedidosAbertos = new ArrayList<>();
+        for (Pedido p : todosPedidos) {
+            if (p.getStatus() == model.StatusPedido.ABERTO || p.getStatus() == model.StatusPedido.APROVADO) {
+                pedidosAbertos.add(p);
+            }
+        }
+        
+        if (pedidosAbertos.isEmpty()) {
+            System.out.println("Nenhum pedido pendente de entrega.");
+            pausar();
+            return;
+        }
+        
+        System.out.println("Pedidos pendentes:");
+        for (Pedido p : pedidosAbertos) {
+            System.out.printf("  %d - Pedido em %s | Status: %s | Solicitante: %s%n", 
+                p.getId(), p.getData(), p.getStatus(), p.getOperador().getNome());
+        }
+        
+        System.out.print("Digite o numero do pedido para registrar entrega (0 para cancelar): ");
+        try {
+            int id = Integer.parseInt(scanner.nextLine().trim());
+            if (id == 0) {
+                System.out.println("Operacao cancelada.");
+            } else {
+                Pedido pedidoEncontrado = null;
+                for (Pedido p : pedidosAbertos) {
+                    if (p.getId() == id) {
+                        pedidoEncontrado = p;
+                        break;
+                    }
+                }
+                
+                if (pedidoEncontrado != null) {
+                    pedidoEncontrado.registrarEntrega();
+                    System.out.println("Entrega registrada! Data de conclusao definida para: " + pedidoEncontrado.getDataConclusao());
+                } else {
+                    System.out.println("Pedido nao encontrado ou nao esta pendente de entrega.");
+                }
+            }
+        } catch (NumberFormatException e) {
+            System.out.println("Entrada invalida.");
+        }
+        pausar();
     }
 
     private static void identificarOperador() {
@@ -79,10 +135,34 @@ public class Main {
 
         if (nome.isEmpty() || iniciais.isEmpty()) {
             System.out.println("Nome e iniciais sao obrigatorios.");
-        } else {
-            operadorAtual = new Operador(nome, iniciais);
-            System.out.println("Usuario atual alterado para: " + operadorAtual);
+            pausar();
+            return;
         }
+
+        System.out.println("Departamentos disponiveis:");
+        for (int i = 0; i < departamentos.size(); i++) {
+            System.out.println((i + 1) + " - " + departamentos.get(i).getNome());
+        }
+        System.out.print("Escolha o departamento (numero): ");
+        int deptoIndex = -1;
+        try {
+            deptoIndex = Integer.parseInt(scanner.nextLine().trim()) - 1;
+        } catch (NumberFormatException e) {
+            // ignora
+        }
+        
+        Departamento depto = null;
+        if (deptoIndex >= 0 && deptoIndex < departamentos.size()) {
+            depto = departamentos.get(deptoIndex);
+        } else {
+            System.out.println("Departamento invalido. Definindo sem departamento.");
+        }
+
+        System.out.print("O usuario e administrador? (S/N): ");
+        boolean isAdmin = scanner.nextLine().trim().equalsIgnoreCase("S");
+
+        operadorAtual = new Operador(nome, iniciais, depto, isAdmin);
+        System.out.println("Usuario atual alterado para: " + operadorAtual);
 
         pausar();
     }
@@ -93,6 +173,11 @@ public class Main {
     }
 
     private static void carregarDadosExemplo() {
+    departamentos.add(new Departamento("TI", 15000.00));
+    departamentos.add(new Departamento("RH", 5000.00));
+    departamentos.add(new Departamento("Financeiro", 20000.00));
+    departamentos.add(new Departamento("Marketing", 8000.00));
+
     fornecedores.add(new Fornecedor(1, "Papelaria Central", "12.345.678/0001-90", "(11) 3000-1111"));
     fornecedores.add(new Fornecedor(2, "Tech Suprimentos", "98.765.432/0001-10", "(11) 3000-2222"));
 
