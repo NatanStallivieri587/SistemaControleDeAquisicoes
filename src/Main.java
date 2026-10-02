@@ -33,6 +33,10 @@ public class Main {
                     CriacaoPedidos.registrarPedido(scanner, todosPedidos, operadorAtual, fornecedores, produtos);
                     pausar();
                     break;                               
+                case "3":
+                    BuscaPedidosPorItem.buscarPorPalavraChave(scanner, todosPedidos);
+                    pausar();
+                    break;
                 case "0":
                     executando = false;
                     System.out.println("Sistema encerrado.");
@@ -57,6 +61,7 @@ public class Main {
     private static void exibirMenu() {
         System.out.println("1 - Identificar/Trocar usuario atual");
         System.out.println("2 - Registrar novo pedido");
+        System.out.println("3 - Buscar pedidos por item (palavra-chave)");
         System.out.println("0 - Sair");
         System.out.print("Escolha uma opcao: ");
     }
