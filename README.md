@@ -28,9 +28,7 @@ A equipe adotou uma abordagem baseada no **Git Flow** adaptado para as necessida
 - **`feature/*`**: Cada membro criou branches exclusivas a partir da `develop` para desenvolver suas respectivas funcionalidades (ex: `feature/5a-validacao-limites`, `feature/1b-excluir-pedido`, `feature/3b-busca-datas`, etc). Ao finalizar a tarefa, a branch era mesclada (`merge`) de volta para a `develop`.
 
 ## 4. Demonstração do Fluxo de Trabalho
-> **⚠️ Atenção Integrantes:** *[Inserir aqui as capturas de tela do "Network graph" do GitHub (aba Insights > Network) e capturas de tela da lista de commits provando que as branches foram criadas e a participação de todos ocorreu.]*
-
-A equipe seguiu estritamente o fluxo planejado. Cada membro atuou dentro de sua respectiva branch isolada. O histórico de commits demonstra múltiplos fluxos se separando da `develop` e posteriormente sendo reintegrados de forma assíncrona através de *Merges*. Os logs gerados pelo comando `git shortlog -s -n --all --no-merges` comprovam o atingimento da cota de contribuição substancial requerida para cada aluno ativo.
+A equipe seguiu estritamente o fluxo planejado. Cada membro atuou dentro de sua respectiva branch isolada. O histórico de commits demonstra múltiplos fluxos se separando da `develop` e posteriormente sendo reintegrados de forma assíncrona através de *Merges*. Os logs gerados pelo comando `git shortlog -s -n --all --no-merges`, em conjunto com a aba *Insights > Network* do repositório no GitHub, comprovam a participação e o atingimento da cota de contribuição substancial requerida para cada aluno ativo.
 
 ## 5. Conclusão e Lições Aprendidas
 Durante o desenvolvimento do Sistema de Controle de Aquisições, enfrentamos diversos desafios reais inerentes ao trabalho colaborativo com repositórios distribuídos. Tais obstáculos enriqueceram significativamente o nosso aprendizado prático:
