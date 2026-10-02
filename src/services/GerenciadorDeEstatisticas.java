@@ -25,7 +25,7 @@ public class GerenciadorDeEstatisticas {
         {
             if(p.getData() != null && p.getData().isAfter(dataAtual.minusDays(31))) {
                 totalPedidos30Dias ++;
-                totalValores30Dias= totalValores30Dias + p.getValor();
+                totalValores30Dias= totalValores30Dias + p.getTotal();
             }
         }
         Double mediaValor30Dias= totalValores30Dias/totalPedidos30Dias;
@@ -39,8 +39,8 @@ public class GerenciadorDeEstatisticas {
        Pedido comValorMaior=null;
        for(Pedido p : todosPedidos)
         {
-            if(p.getValor() != 0 && p.getStatus()== StatusPedido.ABERTO && p.getValor()>valorMaior) {
-                valorMaior= p.getValor();
+            if(p.getTotal() != 0 && p.getStatus()== StatusPedido.ABERTO && p.getTotal()>valorMaior) {
+                valorMaior= p.getTotal();
                 comValorMaior = p;
             }
         }
