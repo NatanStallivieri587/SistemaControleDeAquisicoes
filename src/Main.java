@@ -61,8 +61,32 @@ public class Main {
     private static void exibirPainelAdministrador() {
         System.out.println();
         System.out.println("=== PAINEL DO ADMINISTRADOR ===");
-        System.out.println("Numero total de pedidos registrados: " + todosPedidos.size());
-        // A divisao percentual sera implementada na proxima etapa (Etapa 4)
+        
+        int totalPedidos = todosPedidos.size();
+        System.out.println("Numero total de pedidos registrados: " + totalPedidos);
+        
+        if (totalPedidos > 0) {
+            int aprovados = 0;
+            int reprovados = 0;
+            
+            for (Pedido p : todosPedidos) {
+                if (p.getStatus() == model.StatusPedido.APROVADO || p.getStatus() == model.StatusPedido.RECEBIDO) {
+                    aprovados++;
+                } else if (p.getStatus() == model.StatusPedido.CANCELADO) {
+                    reprovados++;
+                }
+            }
+            
+            double percAprovados = (double) aprovados / totalPedidos * 100;
+            double percReprovados = (double) reprovados / totalPedidos * 100;
+            
+            System.out.printf("Divisao Percentual:%n");
+            System.out.printf("  - Aprovados (e Recebidos): %.2f%% (%d pedidos)%n", percAprovados, aprovados);
+            System.out.printf("  - Reprovados (Cancelados): %.2f%% (%d pedidos)%n", percReprovados, reprovados);
+        } else {
+            System.out.println("Ainda nao ha pedidos para exibir estatisticas.");
+        }
+        
         pausar();
     }
 
