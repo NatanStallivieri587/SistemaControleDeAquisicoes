@@ -24,11 +24,13 @@ public class Operador {
     public Departamento getDepartamento() {
         return departamento;
     }
-
     public boolean isAdministrador() {
         return isAdministrador;
     }
 
+    public void setAdministrador(boolean isAdministrador) {
+        this.isAdministrador = isAdministrador;
+    }
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

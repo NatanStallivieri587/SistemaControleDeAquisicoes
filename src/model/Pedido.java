@@ -51,7 +51,6 @@ public class Pedido {
     public LocalDate getData() { return data; }
     public LocalDate getDataConclusao() { return dataConclusao; }
     public StatusPedido getStatus() { return status; }
-    public void setStatus(StatusPedido status) { this.status = status; }
     public List<ItemPedido> getItens() { return Collections.unmodifiableList(itens); }
 
     @Override
