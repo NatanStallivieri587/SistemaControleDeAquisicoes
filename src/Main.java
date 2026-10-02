@@ -57,8 +57,12 @@ public class Main {
                     GerenciadorDeEstatisticas.getEstatisticasUltimos30Dias(todosPedidos);
                     pausar();
                     break;
-                case "7":
-                    GerenciadorDeEstatisticas.getPedidosO(scanner, todosPedidos);
+                case "8":
+                    GerenciadorDeEstatisticas.getPedidosOperador(scanner, todosPedidos);
+                    pausar();
+                    break;
+                case "9":
+                    GerenciadorDeEstatisticas.getMaiorPedidoValorEmAberto(todosPedidos);
                     pausar();
                     break;
                 case "0":
