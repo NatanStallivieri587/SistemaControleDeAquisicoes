@@ -3,13 +3,9 @@ package services;
 import java.util.List;
 import java.util.Scanner;
 
-import model.Fornecedor;
-import model.ItemPedido;
-import model.Operador;
-import model.Pedido;
-import model.Produto;
+import model.*;
 
-public class RegistroPedido {
+public class CriacaoPedidos {
 
     public static void registrarPedido(Scanner scanner, List<Pedido> todosPedidos, Operador operador,
                                        List<Fornecedor> fornecedores, List<Produto> produtos) {
