@@ -1,8 +1,14 @@
 import java.util.Scanner;
 
 import model.Operador;
+import model.Fornecedor;
+import model.Produto;
+import services.RegistroPedido;
 
 public class Main {
+    
+    private static final List<Fornecedor> fornecedores = new ArrayList<>();
+    private static final List<Produto> produtos = new ArrayList<>();
     private static final Scanner scanner = new Scanner(System.in);
     private static Operador operadorAtual = new Operador("Nao identificado", "--");
 
@@ -19,6 +25,10 @@ public class Main {
                 case "1":
                     identificarOperador();
                     break;
+                case "2":
+                    RegistroPedido.registrarPedido(scanner, todosPedidos, operadorAtual, fornecedores, produtos);
+                    pausar();
+                    break;                               
                 case "0":
                     executando = false;
                     System.out.println("Sistema encerrado.");
