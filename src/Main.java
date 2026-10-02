@@ -1,10 +1,9 @@
 import java.util.*;
-
-import services.*;
-import model.Operador;
 import model.Fornecedor;
+import model.Operador;
 import model.Pedido;
 import model.Produto;
+import services.*;
 
 
 public class Main {
@@ -13,7 +12,6 @@ public class Main {
     private static final List<Produto> produtos = new ArrayList<>();
     private static final List<Pedido> todosPedidos = new ArrayList<>();
     private static final Scanner scanner = new Scanner(System.in);
-    private static final List<Pedido> todosPedidos = new ArrayList<>();
     private static Operador operadorAtual = new Operador("Nao identificado", "--");
 
     public static void main(String[] args) {
@@ -36,6 +34,10 @@ public class Main {
                     break;
                 case "3":
                     ExclusaoPedidos.excluirPedido(scanner, todosPedidos, operadorAtual);
+                    pausar();
+                    break;
+                case "4":
+                    BuscaPedidosPorPeriodo.buscarPedidoPorData(scanner, todosPedidos);
                     pausar();
                     break;
                 case "0":
@@ -63,6 +65,7 @@ public class Main {
         System.out.println("1 - Identificar/Trocar usuario atual");
         System.out.println("2 - Registrar novo pedido");
         System.out.println("3 - Excluir pedido");
+        System.out.println("4 - Buscar pedidos por periodo");
         System.out.println("0 - Sair");
         System.out.print("Escolha uma opcao: ");
     }

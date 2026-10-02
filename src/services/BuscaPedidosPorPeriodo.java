@@ -1,16 +1,15 @@
 package services;
 
 import java.time.*;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Scanner;
-
 import model.Pedido;
 
 //Isso eh apenas uma base pois nao esta compilando atualmente, isso deve ser ajustado logo em que as necessidades forem cumpridas
 
 public class BuscaPedidosPorPeriodo {
-    private static final DateTimeFormatter FORMATO_DATA =
-            DateTimeFormatter.ofPattern("dd/MM");
+    private static final DateTimeFormatter FORMATO_DATA =  DateTimeFormatter.ofPattern("dd/MM");
 
     public static void buscarPedidoPorData(Scanner scanner, List<Pedido> todosPedidos) {
         MonthDay dataInicial;
