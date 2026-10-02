@@ -4,8 +4,14 @@ import java.util.List;
 import java.time.LocalDate;
 public class GerenciadorDeEstatisticas {
 
-    public static List<Pedido> getPedidosOperador(String nomeOperador, List<Pedido> todosPedidos) {
-        List<Pedido> resultados = new ArrayList<>();
+    public static List<Pedido> getPedidosOperador(Scanner scanner, List<Pedido> todosPedidos) {
+        System.out.println();
+        System.out.println("=== CONSULTAR PEDIDOS DE UM OPERADOR ===");
+        String nomeOerador = lerNome(scanner, "Informe o ID do pedido que deseja excluir (0 para cancelar): ");
+        if (operador == null || operador.getIniciais() == null || operador.getIniciais().equals("--")) {
+            System.out.println("Identifique o usuario atual (opcao 1) antes de excluir um pedido.");
+            return;
+        }
         for(Pedido p : todosPedidos)
         {
             if(p.getOperador() != null && p.getOperador().getNome().equals(nomeOperador)) {
@@ -45,5 +51,11 @@ public class GerenciadorDeEstatisticas {
             }
         }
      return comValorMaior.toString();
+    }
+    private static String lerNome(Scanner scanner, String mensagem) {
+        while (true) {
+            System.out.print(mensagem);
+            
+        }
     }
 }

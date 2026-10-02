@@ -53,6 +53,14 @@ public class Main {
                         pausar();
                     }
                     break;
+                case "7":
+                    GerenciadorDeEstatisticas.getEstatisticasUltimos30Dias(todosPedidos);
+                    pausar();
+                    break;
+                case "7":
+                    GerenciadorDeEstatisticas.getPedidosO(scanner, todosPedidos);
+                    pausar();
+                    break;
                 case "0":
                     executando = false;
                     System.out.println("Sistema encerrado.");
