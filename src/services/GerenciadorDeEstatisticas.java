@@ -1,61 +1,84 @@
-package model;
+package services;
+
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 import java.time.LocalDate;
+import model.Pedido;
+import model.StatusPedido;
+
 public class GerenciadorDeEstatisticas {
 
-    public static List<Pedido> getPedidosOperador(Scanner scanner, List<Pedido> todosPedidos) {
+    public static void getPedidosOperador(Scanner scanner, List<Pedido> todosPedidos) {
         System.out.println();
         System.out.println("=== CONSULTAR PEDIDOS DE UM OPERADOR ===");
-        String nomeOerador = lerNome(scanner, "Informe o ID do pedido que deseja excluir (0 para cancelar): ");
-        if (operador == null || operador.getIniciais() == null || operador.getIniciais().equals("--")) {
-            System.out.println("Identifique o usuario atual (opcao 1) antes de excluir um pedido.");
+        System.out.print("Informe o nome do solicitante para buscar (vazio para cancelar): ");
+        String nomeOperador = scanner.nextLine().trim();
+        
+        if (nomeOperador.isEmpty()) {
+            System.out.println("Busca cancelada.");
             return;
         }
-        for(Pedido p : todosPedidos)
-        {
-            if(p.getOperador() != null && p.getOperador().getNome().equals(nomeOperador)) {
+
+        List<Pedido> resultados = new ArrayList<>();
+        for(Pedido p : todosPedidos) {
+            if(p.getOperador() != null && p.getOperador().getNome().equalsIgnoreCase(nomeOperador)) {
                 resultados.add(p);
             }
         }
-        return resultados;
-    }
-    // retorna um array com os dados de quantidade pedidos, posição 0, e media dos pedidos, posição 1.
-    public static double[] getEstatisticasUltimos30Dias(List<Pedido> todosPedidos)
-    {
-        double[] resultado = new double[2];
-        LocalDate dataAtual = LocalDate.now();
-        double totalValores30Dias = 0;
-        double totalPedidos30Dias= 0;
-        for(Pedido p : todosPedidos)
-        {
-            if(p.getData() != null && p.getData().isAfter(dataAtual.minusDays(31))) {
-                totalPedidos30Dias ++;
-                totalValores30Dias= totalValores30Dias + p.getTotal();
+
+        if (resultados.isEmpty()) {
+            System.out.println("Nenhum pedido encontrado para o operador: " + nomeOperador);
+        } else {
+            System.out.println("Pedidos encontrados:");
+            for (Pedido p : resultados) {
+                System.out.println(p);
+                System.out.println("-------------------------");
             }
         }
-        Double mediaValor30Dias= totalValores30Dias/totalPedidos30Dias;
-        resultado[0] = totalPedidos30Dias;
-        resultado[1] = mediaValor30Dias;
-        return resultado;
     }
-    public static String getMaiorPedidoValorEmAberto(List<Pedido> todosPedidos)
+    
+    // retorna um array com os dados de quantidade pedidos, posição 0, e media dos pedidos, posição 1.
+    public static void getEstatisticasUltimos30Dias(List<Pedido> todosPedidos)
     {
-       double valorMaior= 0;
-       Pedido comValorMaior=null;
-       for(Pedido p : todosPedidos)
-        {
-            if(p.getTotal() != 0 && p.getStatus()== StatusPedido.ABERTO && p.getTotal()>valorMaior) {
-                valorMaior= p.getTotal();
+        System.out.println();
+        System.out.println("=== ESTATISTICAS DOS ULTIMOS 30 DIAS ===");
+        LocalDate dataAtual = LocalDate.now();
+        double totalValores30Dias = 0;
+        int totalPedidos30Dias= 0;
+        
+        for(Pedido p : todosPedidos) {
+            if(p.getData() != null && !p.getData().isBefore(dataAtual.minusDays(30))) {
+                totalPedidos30Dias++;
+                totalValores30Dias += p.getTotal();
+            }
+        }
+
+        System.out.println("Total de pedidos (ultimos 30 dias): " + totalPedidos30Dias);
+        if (totalPedidos30Dias > 0) {
+            double media = totalValores30Dias / totalPedidos30Dias;
+            System.out.printf("Valor medio dos pedidos: R$ %.2f%n", media);
+        }
+    }
+
+    public static void getMaiorPedidoValorEmAberto(List<Pedido> todosPedidos)
+    {
+        System.out.println();
+        System.out.println("=== MAIOR PEDIDO ABERTO ===");
+        double valorMaior= 0;
+        Pedido comValorMaior=null;
+        
+        for(Pedido p : todosPedidos) {
+            if(p.getStatus() == StatusPedido.ABERTO && p.getTotal() > valorMaior) {
+                valorMaior = p.getTotal();
                 comValorMaior = p;
             }
         }
-     return comValorMaior.toString();
-    }
-    private static String lerNome(Scanner scanner, String mensagem) {
-        while (true) {
-            System.out.print(mensagem);
-            
+
+        if (comValorMaior != null) {
+            System.out.println(comValorMaior);
+        } else {
+            System.out.println("Nenhum pedido ABERTO foi encontrado.");
         }
     }
 }
