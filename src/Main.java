@@ -5,15 +5,17 @@ import model.Operador;
 import model.Fornecedor;
 import model.Pedido;
 import model.Produto;
+import model.Departamento;
 
 
 public class Main {
     
+    private static final List<Departamento> departamentos = new ArrayList<>();
     private static final List<Fornecedor> fornecedores = new ArrayList<>();
     private static final List<Produto> produtos = new ArrayList<>();
     private static final List<Pedido> todosPedidos = new ArrayList<>();
     private static final Scanner scanner = new Scanner(System.in);
-    private static Operador operadorAtual = new Operador("Nao identificado", "--");
+    private static Operador operadorAtual = new Operador("Nao identificado", "--", null, false);
 
     public static void main(String[] args) {
         boolean executando = true;
@@ -75,10 +77,34 @@ public class Main {
 
         if (nome.isEmpty() || iniciais.isEmpty()) {
             System.out.println("Nome e iniciais sao obrigatorios.");
-        } else {
-            operadorAtual = new Operador(nome, iniciais);
-            System.out.println("Usuario atual alterado para: " + operadorAtual);
+            pausar();
+            return;
         }
+
+        System.out.println("Departamentos disponiveis:");
+        for (int i = 0; i < departamentos.size(); i++) {
+            System.out.println((i + 1) + " - " + departamentos.get(i).getNome());
+        }
+        System.out.print("Escolha o departamento (numero): ");
+        int deptoIndex = -1;
+        try {
+            deptoIndex = Integer.parseInt(scanner.nextLine().trim()) - 1;
+        } catch (NumberFormatException e) {
+            // ignora
+        }
+        
+        Departamento depto = null;
+        if (deptoIndex >= 0 && deptoIndex < departamentos.size()) {
+            depto = departamentos.get(deptoIndex);
+        } else {
+            System.out.println("Departamento invalido. Definindo sem departamento.");
+        }
+
+        System.out.print("O usuario e administrador? (S/N): ");
+        boolean isAdmin = scanner.nextLine().trim().equalsIgnoreCase("S");
+
+        operadorAtual = new Operador(nome, iniciais, depto, isAdmin);
+        System.out.println("Usuario atual alterado para: " + operadorAtual);
 
         pausar();
     }
@@ -89,6 +115,11 @@ public class Main {
     }
 
     private static void carregarDadosExemplo() {
+    departamentos.add(new Departamento("TI", 15000.00));
+    departamentos.add(new Departamento("RH", 5000.00));
+    departamentos.add(new Departamento("Financeiro", 20000.00));
+    departamentos.add(new Departamento("Marketing", 8000.00));
+
     fornecedores.add(new Fornecedor(1, "Papelaria Central", "12.345.678/0001-90", "(11) 3000-1111"));
     fornecedores.add(new Fornecedor(2, "Tech Suprimentos", "98.765.432/0001-10", "(11) 3000-2222"));
 
