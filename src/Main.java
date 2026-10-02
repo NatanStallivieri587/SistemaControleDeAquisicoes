@@ -77,7 +77,6 @@ public class Main {
 
         pausar();
     }
-1
 
     private static void pausar() {
         System.out.println("Pressione ENTER para continuar...");
