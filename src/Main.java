@@ -1,9 +1,14 @@
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 import model.Operador;
+import model.Pedido;
+import services.BuscaPedidosPorPeriodo;
 
 public class Main {
     private static final Scanner scanner = new Scanner(System.in);
+    private static final List<Pedido> todosPedidos = new ArrayList<>();
     private static Operador operadorAtual = new Operador("Nao identificado", "--");
 
     public static void main(String[] args) {
@@ -18,6 +23,10 @@ public class Main {
             switch (opcao) {
                 case "1":
                     identificarOperador();
+                    break;
+                case "2":
+                    BuscaPedidosPorPeriodo.buscarPedidoPorData(scanner, todosPedidos);
+                    pausar();
                     break;
                 case "0":
                     executando = false;
@@ -42,6 +51,7 @@ public class Main {
 
     private static void exibirMenu() {
         System.out.println("1 - Identificar/Trocar usuario atual");
+        System.out.println("2 - Buscar pedidos por periodo");
         System.out.println("0 - Sair");
         System.out.print("Escolha uma opcao: ");
     }
